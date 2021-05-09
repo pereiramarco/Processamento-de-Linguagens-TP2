@@ -1,0 +1,51 @@
+#Comentários são feitos com # no ínicio da linha
+
+#Declarações
+{
+    #Cast de 1.9 para int é feito automaticamente
+    int m=1.9; 
+    #Variaveis declaradas sem atribuição ficam com o valor 0
+    int t;
+    int f;
+    float k=10.2;
+}
+
+#Leitura do valor de t
+t<<;
+
+#Ciclo while
+<while> m<10 <then>
+{
+
+    #If Then
+    <if> m==2 <then>
+        >>m;
+    ; 
+    #Closing the If
+
+    #Atribuicao
+    m=m+1;
+}
+
+#If Then Else
+<if> m==10 <then>
+    m=1;
+<else>
+    >>m;
+; 
+#Closing the If
+
+
+#Funcao
+<func> nome {
+    t<<;
+    f<<;
+    <ret> t+f;
+} 
+
+#Chamada a função
+t = <call> nome ;
+
+#Escrita do valor t
+>>t;
+

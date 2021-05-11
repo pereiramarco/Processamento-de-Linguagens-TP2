@@ -77,7 +77,6 @@ def p_Declaracoes(p):
 
 def p_Declaracoes_paragem(p):
     "Declaracoes : "
-    pass
 
 def p_Declaracao(p):
     "Declaracao : Type ID '=' Expr ';'"
@@ -130,13 +129,13 @@ def p_Funcao(p):
 
 def p_DecFunc(p):
     "DecFunc : FUNC ID"
-    p.parser.compiled+="jump af"+str(p.parser.label_in) +"\n"+ p[2].strip() +" :\n"
-    p.parser.label_in+=1
+    p.parser.stack.append(p.parser.label)
+    p.parser.label+=1
+    p.parser.compiled+="jump af"+str(p.parser.stack[-1]) +"\n"+ p[2].strip() +" :\n"
     
 def p_Ret(p):
     "Ret : RET Expr ';'"
-    p.parser.compiled+=p[2] + "storel -1\nreturn\naf" + str(p.parser.label_out) + " :\n"
-    p.parser.label_out-=1
+    p.parser.compiled+=p[2] + "storel -1\nreturn\naf" + str(p.parser.stack.pop()) + " :\n"
 
 def p_ListInstrucao(p):
     "ListInstrucao : ListInstrucao Instrucao"
@@ -189,33 +188,34 @@ def p_Atribuicao(p):
 
 def p_Condicao_if(p):
     "Condicao : IF ExprCond Then ListInstrucao ';'"
-    p.parser.compiled+="e"+str(p.parser.label_out-1) + " :\n"
-    p.parser.label_out-=1
+    p.parser.compiled+="e"+str(p.parser.stack.pop()) + " :\n"
 
 def p_Condicao_else(p):
     "Condicao : IF ExprCond Then ListInstrucao Else ListInstrucao ';'"
-    p.parser.compiled+="t"+str(p.parser.label_out-1)+" :\n"
-    p.parser.label_out-=1
+    p.parser.compiled+="t"+str(p.parser.stack.pop())+" :\n"
 
 def p_Ciclo(p):
     "Ciclo : While ExprCond Then '{' ListInstrucao '}'"
-    p.parser.compiled+="jump c" + str(p.parser.label_out-1) + "\n" + "e"+str(p.parser.label_out-1) + " :\n"
-    p.parser.label_out-=1
+    pop1 = p.parser.stack.pop()
+    pop2 = p.parser.stack.pop()
+    p.parser.compiled+="jump c" + str(pop2) + "\n" + "e"+str(pop1) + " :\n"
 
 def p_While(p):
     "While : WHILE"
-    p.parser.compiled+="c"+str(p.parser.label_in) +" :\n"
+    p.parser.stack.append(p.parser.label)
+    p.parser.compiled+="c"+str(p.parser.stack[-1]) +" :\n"
+    p.parser.label+=1
 
 def p_Then(p):
     "Then : THEN"
-    p.parser.compiled+="jz e" + str(p.parser.label_in) + "\n"
-    p.parser.label_in+=1
-    p.parser.label_out+=1
+    p.parser.stack.append(p.parser.label)
+    p.parser.compiled+="jz e" + str(p.parser.stack[-1]) + "\n"
+    p.parser.label+=1
     p.parser.current_type="None"
 
 def p_Else(p):
     "Else : ELSE"
-    p.parser.compiled+="jump t" + str(p.parser.label_out-1) +"\n"+"e"+str(p.parser.label_out-1) + " :\n"
+    p.parser.compiled+="jump t" + str(p.parser.stack[-1]) +"\n"+"e"+str(p.parser.stack[-1]) + " :\n"
 
 def p_ExprCond_and(p):
     "ExprCond : ExprCond '&' Cond"
@@ -378,9 +378,9 @@ parser.success=True #Determina se a compilação foi bem sucedida
 
 parser.current_type="None" #Determina o tipo da operação atual, pode ser ""(Inteiro) "f"(Float) "None"(Não definido)
 
-parser.label_in=0 #Serve para declarar as etiquetas dos ciclos, funções e condições
+parser.label=0 #Serve para declarar as etiquetas dos ciclos, funções e condições
 
-parser.label_out=0 #Serve para declarar as etiquetas dos ciclos, funções e condições
+parser.stack=[] 
 
 content=""
 for linha in read:

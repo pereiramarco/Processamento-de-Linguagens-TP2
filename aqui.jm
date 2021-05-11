@@ -7,45 +7,82 @@
     #Variaveis declaradas sem atribuição ficam com o valor 0
     int t;
     int f;
-    float k=10.2;
+    int ten=10;
+    int other=0;
+    int nine=9;
+    int eigth=8;
+    int seven=7;
+    int six=6;
 }
 
-#Leitura do valor de t
-t<<;
-
-#Ciclo while
-<while> m<10 <then>
-{
-
-    #If Then
-    <if> m==2 <then>
-        >>m;
-    ; 
-    #Closing the If
-
-    #Atribuicao
-    m=m+1;
-}
-
-#If Then Else
-<if> m==10 <then>
-    m=1;
-<else>
-    >>m;
-; 
-#Closing the If
-
-
-#Funcao
+##Leitura do valor de t
+#t<<;
+#
+##Ciclo while
+#<while> m<10 <then>
+#{
+#
+#    #If Then
+#    <if> m==2 <then>
+#        >>m;
+#    ; 
+#    #Closing the If
+#
+#    #Atribuicao
+#    m=m+1;
+#}
+#
+##If Then Else
+#<if> m==10 <then>
+#    m=1;
+#<else>
+#    >>m;
+#; 
+##Closing the If
+#
+#
+##Funcao
 <func> nome {
     t<<;
     f<<;
     <ret> t+f;
 } 
+#
+##Chamada a função
+#t = <call> nome ;
+#
+##Escrita do valor t
+#>>t;
 
-#Chamada a função
-t = <call> nome ;
+t<<;
 
-#Escrita do valor t
->>t;
+<if> t==10 <then>
+    >>ten;
+<else>
+    <if> t==9 <then>
+        >>nine;
+    <else>
+        <if> t==8 <then>
+            >>eigth;
+        <else>
+            <if> t==7 <then>
+                >>seven;
+            <else>
+                <if> t==6 <then>
+                    >>six;
+                <else>
+                    <while> t>0 <then>
+                    {
+                        >>t;
+                        t=t-1;
+                    }
+                    t = <call> nome;
+                    >>t;
+                ;
+            ;
+        ;
+    ;
+;
+
+
 

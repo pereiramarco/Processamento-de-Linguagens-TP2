@@ -1,0 +1,1768 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> Inicio
+Rule 1     Inicio -> Variaveis Codigo
+Rule 2     Variaveis -> { Declaracoes }
+Rule 3     Declaracoes -> Declaracoes Declaracao
+Rule 4     Declaracoes -> <empty>
+Rule 5     Declaracao -> Type ID = Expr ;
+Rule 6     Declaracao -> Type ID ;
+Rule 7     Type -> ID
+Rule 8     Codigo -> Codigo Funcao
+Rule 9     Codigo -> Codigo Instrucao
+Rule 10    Codigo -> <empty>
+Rule 11    Funcao -> DecFunc { ListInstrucao Ret }
+Rule 12    DecFunc -> FUNC ID
+Rule 13    Ret -> RET Expr ;
+Rule 14    ListInstrucao -> ListInstrucao Instrucao
+Rule 15    ListInstrucao -> <empty>
+Rule 16    Instrucao -> Atribuicao
+Rule 17    Instrucao -> Leitura
+Rule 18    Instrucao -> Escrita
+Rule 19    Instrucao -> Condicao
+Rule 20    Instrucao -> Ciclo
+Rule 21    Leitura -> Var IN ;
+Rule 22    Escrita -> OUT Var ;
+Rule 23    Atribuicao -> Var = Expr ;
+Rule 24    Condicao -> IF ExprCond Then ListInstrucao ;
+Rule 25    Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ;
+Rule 26    Ciclo -> While ExprCond Then { ListInstrucao }
+Rule 27    While -> WHILE
+Rule 28    Then -> THEN
+Rule 29    Else -> ELSE
+Rule 30    ExprCond -> ExprCond & Cond
+Rule 31    ExprCond -> ExprCond | Cond
+Rule 32    ExprCond -> Cond
+Rule 33    Cond -> Expr EQUAL Expr
+Rule 34    Cond -> Expr BIGGER Expr
+Rule 35    Cond -> Expr BIGGEREQUAL Expr
+Rule 36    Cond -> Expr SMALLER Expr
+Rule 37    Cond -> Expr SMALLEREQUAL Expr
+Rule 38    Var -> ID
+Rule 39    Expr -> Expr + Term
+Rule 40    Expr -> Expr - Term
+Rule 41    Expr -> Term
+Rule 42    Term -> Term * Factor
+Rule 43    Term -> Term / Factor
+Rule 44    Term -> Term % Factor
+Rule 45    Term -> Factor
+Rule 46    Factor -> INT
+Rule 47    Factor -> - INT
+Rule 48    Factor -> FLOAT
+Rule 49    Factor -> - FLOAT
+Rule 50    Factor -> ID
+Rule 51    Factor -> - ID
+Rule 52    Factor -> CALL ID
+
+Terminals, with rules where they appear
+
+%                    : 44
+&                    : 30
+*                    : 42
++                    : 39
+-                    : 40 47 49 51
+/                    : 43
+;                    : 5 6 13 21 22 23 24 25
+=                    : 5 23
+BIGGER               : 34
+BIGGEREQUAL          : 35
+CALL                 : 52
+ELSE                 : 29
+EQUAL                : 33
+FLOAT                : 48 49
+FUNC                 : 12
+ID                   : 5 6 7 12 38 50 51 52
+IF                   : 24 25
+IN                   : 21
+INT                  : 46 47
+OUT                  : 22
+RET                  : 13
+SMALLER              : 36
+SMALLEREQUAL         : 37
+THEN                 : 28
+WHILE                : 27
+error                : 
+{                    : 2 11 26
+|                    : 31
+}                    : 2 11 26
+
+Nonterminals, with rules where they appear
+
+Atribuicao           : 16
+Ciclo                : 20
+Codigo               : 1 8 9
+Cond                 : 30 31 32
+Condicao             : 19
+DecFunc              : 11
+Declaracao           : 3
+Declaracoes          : 2 3
+Else                 : 25
+Escrita              : 18
+Expr                 : 5 13 23 33 33 34 34 35 35 36 36 37 37 39 40
+ExprCond             : 24 25 26 30 31
+Factor               : 42 43 44 45
+Funcao               : 8
+Inicio               : 0
+Instrucao            : 9 14
+Leitura              : 17
+ListInstrucao        : 11 14 24 25 25 26
+Ret                  : 11
+Term                 : 39 40 41 42 43 44
+Then                 : 24 25 26
+Type                 : 5 6
+Var                  : 21 22 23
+Variaveis            : 1
+While                : 26
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Inicio
+    (1) Inicio -> . Variaveis Codigo
+    (2) Variaveis -> . { Declaracoes }
+
+    {               shift and go to state 3
+
+    Inicio                         shift and go to state 1
+    Variaveis                      shift and go to state 2
+
+state 1
+
+    (0) S' -> Inicio .
+
+
+
+state 2
+
+    (1) Inicio -> Variaveis . Codigo
+    (8) Codigo -> . Codigo Funcao
+    (9) Codigo -> . Codigo Instrucao
+    (10) Codigo -> .
+
+    FUNC            reduce using rule 10 (Codigo -> .)
+    OUT             reduce using rule 10 (Codigo -> .)
+    IF              reduce using rule 10 (Codigo -> .)
+    ID              reduce using rule 10 (Codigo -> .)
+    WHILE           reduce using rule 10 (Codigo -> .)
+    $end            reduce using rule 10 (Codigo -> .)
+
+    Codigo                         shift and go to state 4
+
+state 3
+
+    (2) Variaveis -> { . Declaracoes }
+    (3) Declaracoes -> . Declaracoes Declaracao
+    (4) Declaracoes -> .
+
+    }               reduce using rule 4 (Declaracoes -> .)
+    ID              reduce using rule 4 (Declaracoes -> .)
+
+    Declaracoes                    shift and go to state 5
+
+state 4
+
+    (1) Inicio -> Variaveis Codigo .
+    (8) Codigo -> Codigo . Funcao
+    (9) Codigo -> Codigo . Instrucao
+    (11) Funcao -> . DecFunc { ListInstrucao Ret }
+    (16) Instrucao -> . Atribuicao
+    (17) Instrucao -> . Leitura
+    (18) Instrucao -> . Escrita
+    (19) Instrucao -> . Condicao
+    (20) Instrucao -> . Ciclo
+    (12) DecFunc -> . FUNC ID
+    (23) Atribuicao -> . Var = Expr ;
+    (21) Leitura -> . Var IN ;
+    (22) Escrita -> . OUT Var ;
+    (24) Condicao -> . IF ExprCond Then ListInstrucao ;
+    (25) Condicao -> . IF ExprCond Then ListInstrucao Else ListInstrucao ;
+    (26) Ciclo -> . While ExprCond Then { ListInstrucao }
+    (38) Var -> . ID
+    (27) While -> . WHILE
+
+    $end            reduce using rule 1 (Inicio -> Variaveis Codigo .)
+    FUNC            shift and go to state 14
+    OUT             shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 15
+    WHILE           shift and go to state 20
+
+    Funcao                         shift and go to state 6
+    Instrucao                      shift and go to state 7
+    DecFunc                        shift and go to state 8
+    Atribuicao                     shift and go to state 9
+    Leitura                        shift and go to state 10
+    Escrita                        shift and go to state 11
+    Condicao                       shift and go to state 12
+    Ciclo                          shift and go to state 13
+    Var                            shift and go to state 16
+    While                          shift and go to state 19
+
+state 5
+
+    (2) Variaveis -> { Declaracoes . }
+    (3) Declaracoes -> Declaracoes . Declaracao
+    (5) Declaracao -> . Type ID = Expr ;
+    (6) Declaracao -> . Type ID ;
+    (7) Type -> . ID
+
+    }               shift and go to state 21
+    ID              shift and go to state 24
+
+    Declaracao                     shift and go to state 22
+    Type                           shift and go to state 23
+
+state 6
+
+    (8) Codigo -> Codigo Funcao .
+
+    FUNC            reduce using rule 8 (Codigo -> Codigo Funcao .)
+    OUT             reduce using rule 8 (Codigo -> Codigo Funcao .)
+    IF              reduce using rule 8 (Codigo -> Codigo Funcao .)
+    ID              reduce using rule 8 (Codigo -> Codigo Funcao .)
+    WHILE           reduce using rule 8 (Codigo -> Codigo Funcao .)
+    $end            reduce using rule 8 (Codigo -> Codigo Funcao .)
+
+
+state 7
+
+    (9) Codigo -> Codigo Instrucao .
+
+    FUNC            reduce using rule 9 (Codigo -> Codigo Instrucao .)
+    OUT             reduce using rule 9 (Codigo -> Codigo Instrucao .)
+    IF              reduce using rule 9 (Codigo -> Codigo Instrucao .)
+    ID              reduce using rule 9 (Codigo -> Codigo Instrucao .)
+    WHILE           reduce using rule 9 (Codigo -> Codigo Instrucao .)
+    $end            reduce using rule 9 (Codigo -> Codigo Instrucao .)
+
+
+state 8
+
+    (11) Funcao -> DecFunc . { ListInstrucao Ret }
+
+    {               shift and go to state 25
+
+
+state 9
+
+    (16) Instrucao -> Atribuicao .
+
+    FUNC            reduce using rule 16 (Instrucao -> Atribuicao .)
+    OUT             reduce using rule 16 (Instrucao -> Atribuicao .)
+    IF              reduce using rule 16 (Instrucao -> Atribuicao .)
+    ID              reduce using rule 16 (Instrucao -> Atribuicao .)
+    WHILE           reduce using rule 16 (Instrucao -> Atribuicao .)
+    $end            reduce using rule 16 (Instrucao -> Atribuicao .)
+    RET             reduce using rule 16 (Instrucao -> Atribuicao .)
+    ;               reduce using rule 16 (Instrucao -> Atribuicao .)
+    ELSE            reduce using rule 16 (Instrucao -> Atribuicao .)
+    }               reduce using rule 16 (Instrucao -> Atribuicao .)
+
+
+state 10
+
+    (17) Instrucao -> Leitura .
+
+    FUNC            reduce using rule 17 (Instrucao -> Leitura .)
+    OUT             reduce using rule 17 (Instrucao -> Leitura .)
+    IF              reduce using rule 17 (Instrucao -> Leitura .)
+    ID              reduce using rule 17 (Instrucao -> Leitura .)
+    WHILE           reduce using rule 17 (Instrucao -> Leitura .)
+    $end            reduce using rule 17 (Instrucao -> Leitura .)
+    RET             reduce using rule 17 (Instrucao -> Leitura .)
+    ;               reduce using rule 17 (Instrucao -> Leitura .)
+    ELSE            reduce using rule 17 (Instrucao -> Leitura .)
+    }               reduce using rule 17 (Instrucao -> Leitura .)
+
+
+state 11
+
+    (18) Instrucao -> Escrita .
+
+    FUNC            reduce using rule 18 (Instrucao -> Escrita .)
+    OUT             reduce using rule 18 (Instrucao -> Escrita .)
+    IF              reduce using rule 18 (Instrucao -> Escrita .)
+    ID              reduce using rule 18 (Instrucao -> Escrita .)
+    WHILE           reduce using rule 18 (Instrucao -> Escrita .)
+    $end            reduce using rule 18 (Instrucao -> Escrita .)
+    RET             reduce using rule 18 (Instrucao -> Escrita .)
+    ;               reduce using rule 18 (Instrucao -> Escrita .)
+    ELSE            reduce using rule 18 (Instrucao -> Escrita .)
+    }               reduce using rule 18 (Instrucao -> Escrita .)
+
+
+state 12
+
+    (19) Instrucao -> Condicao .
+
+    FUNC            reduce using rule 19 (Instrucao -> Condicao .)
+    OUT             reduce using rule 19 (Instrucao -> Condicao .)
+    IF              reduce using rule 19 (Instrucao -> Condicao .)
+    ID              reduce using rule 19 (Instrucao -> Condicao .)
+    WHILE           reduce using rule 19 (Instrucao -> Condicao .)
+    $end            reduce using rule 19 (Instrucao -> Condicao .)
+    RET             reduce using rule 19 (Instrucao -> Condicao .)
+    ;               reduce using rule 19 (Instrucao -> Condicao .)
+    ELSE            reduce using rule 19 (Instrucao -> Condicao .)
+    }               reduce using rule 19 (Instrucao -> Condicao .)
+
+
+state 13
+
+    (20) Instrucao -> Ciclo .
+
+    FUNC            reduce using rule 20 (Instrucao -> Ciclo .)
+    OUT             reduce using rule 20 (Instrucao -> Ciclo .)
+    IF              reduce using rule 20 (Instrucao -> Ciclo .)
+    ID              reduce using rule 20 (Instrucao -> Ciclo .)
+    WHILE           reduce using rule 20 (Instrucao -> Ciclo .)
+    $end            reduce using rule 20 (Instrucao -> Ciclo .)
+    RET             reduce using rule 20 (Instrucao -> Ciclo .)
+    ;               reduce using rule 20 (Instrucao -> Ciclo .)
+    ELSE            reduce using rule 20 (Instrucao -> Ciclo .)
+    }               reduce using rule 20 (Instrucao -> Ciclo .)
+
+
+state 14
+
+    (12) DecFunc -> FUNC . ID
+
+    ID              shift and go to state 26
+
+
+state 15
+
+    (38) Var -> ID .
+
+    =               reduce using rule 38 (Var -> ID .)
+    IN              reduce using rule 38 (Var -> ID .)
+    ;               reduce using rule 38 (Var -> ID .)
+
+
+state 16
+
+    (23) Atribuicao -> Var . = Expr ;
+    (21) Leitura -> Var . IN ;
+
+    =               shift and go to state 27
+    IN              shift and go to state 28
+
+
+state 17
+
+    (22) Escrita -> OUT . Var ;
+    (38) Var -> . ID
+
+    ID              shift and go to state 15
+
+    Var                            shift and go to state 29
+
+state 18
+
+    (24) Condicao -> IF . ExprCond Then ListInstrucao ;
+    (25) Condicao -> IF . ExprCond Then ListInstrucao Else ListInstrucao ;
+    (30) ExprCond -> . ExprCond & Cond
+    (31) ExprCond -> . ExprCond | Cond
+    (32) ExprCond -> . Cond
+    (33) Cond -> . Expr EQUAL Expr
+    (34) Cond -> . Expr BIGGER Expr
+    (35) Cond -> . Expr BIGGEREQUAL Expr
+    (36) Cond -> . Expr SMALLER Expr
+    (37) Cond -> . Expr SMALLEREQUAL Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    ExprCond                       shift and go to state 30
+    Cond                           shift and go to state 31
+    Expr                           shift and go to state 32
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 19
+
+    (26) Ciclo -> While . ExprCond Then { ListInstrucao }
+    (30) ExprCond -> . ExprCond & Cond
+    (31) ExprCond -> . ExprCond | Cond
+    (32) ExprCond -> . Cond
+    (33) Cond -> . Expr EQUAL Expr
+    (34) Cond -> . Expr BIGGER Expr
+    (35) Cond -> . Expr BIGGEREQUAL Expr
+    (36) Cond -> . Expr SMALLER Expr
+    (37) Cond -> . Expr SMALLEREQUAL Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    ExprCond                       shift and go to state 40
+    Cond                           shift and go to state 31
+    Expr                           shift and go to state 32
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 20
+
+    (27) While -> WHILE .
+
+    INT             reduce using rule 27 (While -> WHILE .)
+    -               reduce using rule 27 (While -> WHILE .)
+    FLOAT           reduce using rule 27 (While -> WHILE .)
+    ID              reduce using rule 27 (While -> WHILE .)
+    CALL            reduce using rule 27 (While -> WHILE .)
+
+
+state 21
+
+    (2) Variaveis -> { Declaracoes } .
+
+    FUNC            reduce using rule 2 (Variaveis -> { Declaracoes } .)
+    OUT             reduce using rule 2 (Variaveis -> { Declaracoes } .)
+    IF              reduce using rule 2 (Variaveis -> { Declaracoes } .)
+    ID              reduce using rule 2 (Variaveis -> { Declaracoes } .)
+    WHILE           reduce using rule 2 (Variaveis -> { Declaracoes } .)
+    $end            reduce using rule 2 (Variaveis -> { Declaracoes } .)
+
+
+state 22
+
+    (3) Declaracoes -> Declaracoes Declaracao .
+
+    }               reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+    ID              reduce using rule 3 (Declaracoes -> Declaracoes Declaracao .)
+
+
+state 23
+
+    (5) Declaracao -> Type . ID = Expr ;
+    (6) Declaracao -> Type . ID ;
+
+    ID              shift and go to state 41
+
+
+state 24
+
+    (7) Type -> ID .
+
+    ID              reduce using rule 7 (Type -> ID .)
+
+
+state 25
+
+    (11) Funcao -> DecFunc { . ListInstrucao Ret }
+    (14) ListInstrucao -> . ListInstrucao Instrucao
+    (15) ListInstrucao -> .
+
+    RET             reduce using rule 15 (ListInstrucao -> .)
+    OUT             reduce using rule 15 (ListInstrucao -> .)
+    IF              reduce using rule 15 (ListInstrucao -> .)
+    ID              reduce using rule 15 (ListInstrucao -> .)
+    WHILE           reduce using rule 15 (ListInstrucao -> .)
+
+    ListInstrucao                  shift and go to state 42
+
+state 26
+
+    (12) DecFunc -> FUNC ID .
+
+    {               reduce using rule 12 (DecFunc -> FUNC ID .)
+
+
+state 27
+
+    (23) Atribuicao -> Var = . Expr ;
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 43
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 28
+
+    (21) Leitura -> Var IN . ;
+
+    ;               shift and go to state 44
+
+
+state 29
+
+    (22) Escrita -> OUT Var . ;
+
+    ;               shift and go to state 45
+
+
+state 30
+
+    (24) Condicao -> IF ExprCond . Then ListInstrucao ;
+    (25) Condicao -> IF ExprCond . Then ListInstrucao Else ListInstrucao ;
+    (30) ExprCond -> ExprCond . & Cond
+    (31) ExprCond -> ExprCond . | Cond
+    (28) Then -> . THEN
+
+    &               shift and go to state 47
+    |               shift and go to state 48
+    THEN            shift and go to state 49
+
+    Then                           shift and go to state 46
+
+state 31
+
+    (32) ExprCond -> Cond .
+
+    &               reduce using rule 32 (ExprCond -> Cond .)
+    |               reduce using rule 32 (ExprCond -> Cond .)
+    THEN            reduce using rule 32 (ExprCond -> Cond .)
+
+
+state 32
+
+    (33) Cond -> Expr . EQUAL Expr
+    (34) Cond -> Expr . BIGGER Expr
+    (35) Cond -> Expr . BIGGEREQUAL Expr
+    (36) Cond -> Expr . SMALLER Expr
+    (37) Cond -> Expr . SMALLEREQUAL Expr
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    EQUAL           shift and go to state 50
+    BIGGER          shift and go to state 51
+    BIGGEREQUAL     shift and go to state 52
+    SMALLER         shift and go to state 53
+    SMALLEREQUAL    shift and go to state 54
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 33
+
+    (41) Expr -> Term .
+    (42) Term -> Term . * Factor
+    (43) Term -> Term . / Factor
+    (44) Term -> Term . % Factor
+
+    EQUAL           reduce using rule 41 (Expr -> Term .)
+    BIGGER          reduce using rule 41 (Expr -> Term .)
+    BIGGEREQUAL     reduce using rule 41 (Expr -> Term .)
+    SMALLER         reduce using rule 41 (Expr -> Term .)
+    SMALLEREQUAL    reduce using rule 41 (Expr -> Term .)
+    +               reduce using rule 41 (Expr -> Term .)
+    -               reduce using rule 41 (Expr -> Term .)
+    ;               reduce using rule 41 (Expr -> Term .)
+    &               reduce using rule 41 (Expr -> Term .)
+    |               reduce using rule 41 (Expr -> Term .)
+    THEN            reduce using rule 41 (Expr -> Term .)
+    *               shift and go to state 57
+    /               shift and go to state 58
+    %               shift and go to state 59
+
+
+state 34
+
+    (47) Factor -> - . INT
+    (49) Factor -> - . FLOAT
+    (51) Factor -> - . ID
+
+    INT             shift and go to state 60
+    FLOAT           shift and go to state 61
+    ID              shift and go to state 62
+
+
+state 35
+
+    (45) Term -> Factor .
+
+    *               reduce using rule 45 (Term -> Factor .)
+    /               reduce using rule 45 (Term -> Factor .)
+    %               reduce using rule 45 (Term -> Factor .)
+    EQUAL           reduce using rule 45 (Term -> Factor .)
+    BIGGER          reduce using rule 45 (Term -> Factor .)
+    BIGGEREQUAL     reduce using rule 45 (Term -> Factor .)
+    SMALLER         reduce using rule 45 (Term -> Factor .)
+    SMALLEREQUAL    reduce using rule 45 (Term -> Factor .)
+    +               reduce using rule 45 (Term -> Factor .)
+    -               reduce using rule 45 (Term -> Factor .)
+    ;               reduce using rule 45 (Term -> Factor .)
+    &               reduce using rule 45 (Term -> Factor .)
+    |               reduce using rule 45 (Term -> Factor .)
+    THEN            reduce using rule 45 (Term -> Factor .)
+
+
+state 36
+
+    (46) Factor -> INT .
+
+    *               reduce using rule 46 (Factor -> INT .)
+    /               reduce using rule 46 (Factor -> INT .)
+    %               reduce using rule 46 (Factor -> INT .)
+    EQUAL           reduce using rule 46 (Factor -> INT .)
+    BIGGER          reduce using rule 46 (Factor -> INT .)
+    BIGGEREQUAL     reduce using rule 46 (Factor -> INT .)
+    SMALLER         reduce using rule 46 (Factor -> INT .)
+    SMALLEREQUAL    reduce using rule 46 (Factor -> INT .)
+    +               reduce using rule 46 (Factor -> INT .)
+    -               reduce using rule 46 (Factor -> INT .)
+    ;               reduce using rule 46 (Factor -> INT .)
+    &               reduce using rule 46 (Factor -> INT .)
+    |               reduce using rule 46 (Factor -> INT .)
+    THEN            reduce using rule 46 (Factor -> INT .)
+
+
+state 37
+
+    (48) Factor -> FLOAT .
+
+    *               reduce using rule 48 (Factor -> FLOAT .)
+    /               reduce using rule 48 (Factor -> FLOAT .)
+    %               reduce using rule 48 (Factor -> FLOAT .)
+    EQUAL           reduce using rule 48 (Factor -> FLOAT .)
+    BIGGER          reduce using rule 48 (Factor -> FLOAT .)
+    BIGGEREQUAL     reduce using rule 48 (Factor -> FLOAT .)
+    SMALLER         reduce using rule 48 (Factor -> FLOAT .)
+    SMALLEREQUAL    reduce using rule 48 (Factor -> FLOAT .)
+    +               reduce using rule 48 (Factor -> FLOAT .)
+    -               reduce using rule 48 (Factor -> FLOAT .)
+    ;               reduce using rule 48 (Factor -> FLOAT .)
+    &               reduce using rule 48 (Factor -> FLOAT .)
+    |               reduce using rule 48 (Factor -> FLOAT .)
+    THEN            reduce using rule 48 (Factor -> FLOAT .)
+
+
+state 38
+
+    (50) Factor -> ID .
+
+    *               reduce using rule 50 (Factor -> ID .)
+    /               reduce using rule 50 (Factor -> ID .)
+    %               reduce using rule 50 (Factor -> ID .)
+    EQUAL           reduce using rule 50 (Factor -> ID .)
+    BIGGER          reduce using rule 50 (Factor -> ID .)
+    BIGGEREQUAL     reduce using rule 50 (Factor -> ID .)
+    SMALLER         reduce using rule 50 (Factor -> ID .)
+    SMALLEREQUAL    reduce using rule 50 (Factor -> ID .)
+    +               reduce using rule 50 (Factor -> ID .)
+    -               reduce using rule 50 (Factor -> ID .)
+    ;               reduce using rule 50 (Factor -> ID .)
+    &               reduce using rule 50 (Factor -> ID .)
+    |               reduce using rule 50 (Factor -> ID .)
+    THEN            reduce using rule 50 (Factor -> ID .)
+
+
+state 39
+
+    (52) Factor -> CALL . ID
+
+    ID              shift and go to state 63
+
+
+state 40
+
+    (26) Ciclo -> While ExprCond . Then { ListInstrucao }
+    (30) ExprCond -> ExprCond . & Cond
+    (31) ExprCond -> ExprCond . | Cond
+    (28) Then -> . THEN
+
+    &               shift and go to state 47
+    |               shift and go to state 48
+    THEN            shift and go to state 49
+
+    Then                           shift and go to state 64
+
+state 41
+
+    (5) Declaracao -> Type ID . = Expr ;
+    (6) Declaracao -> Type ID . ;
+
+    =               shift and go to state 65
+    ;               shift and go to state 66
+
+
+state 42
+
+    (11) Funcao -> DecFunc { ListInstrucao . Ret }
+    (14) ListInstrucao -> ListInstrucao . Instrucao
+    (13) Ret -> . RET Expr ;
+    (16) Instrucao -> . Atribuicao
+    (17) Instrucao -> . Leitura
+    (18) Instrucao -> . Escrita
+    (19) Instrucao -> . Condicao
+    (20) Instrucao -> . Ciclo
+    (23) Atribuicao -> . Var = Expr ;
+    (21) Leitura -> . Var IN ;
+    (22) Escrita -> . OUT Var ;
+    (24) Condicao -> . IF ExprCond Then ListInstrucao ;
+    (25) Condicao -> . IF ExprCond Then ListInstrucao Else ListInstrucao ;
+    (26) Ciclo -> . While ExprCond Then { ListInstrucao }
+    (38) Var -> . ID
+    (27) While -> . WHILE
+
+    RET             shift and go to state 69
+    OUT             shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 15
+    WHILE           shift and go to state 20
+
+    Ret                            shift and go to state 67
+    Instrucao                      shift and go to state 68
+    Atribuicao                     shift and go to state 9
+    Leitura                        shift and go to state 10
+    Escrita                        shift and go to state 11
+    Condicao                       shift and go to state 12
+    Ciclo                          shift and go to state 13
+    Var                            shift and go to state 16
+    While                          shift and go to state 19
+
+state 43
+
+    (23) Atribuicao -> Var = Expr . ;
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    ;               shift and go to state 70
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 44
+
+    (21) Leitura -> Var IN ; .
+
+    FUNC            reduce using rule 21 (Leitura -> Var IN ; .)
+    OUT             reduce using rule 21 (Leitura -> Var IN ; .)
+    IF              reduce using rule 21 (Leitura -> Var IN ; .)
+    ID              reduce using rule 21 (Leitura -> Var IN ; .)
+    WHILE           reduce using rule 21 (Leitura -> Var IN ; .)
+    $end            reduce using rule 21 (Leitura -> Var IN ; .)
+    RET             reduce using rule 21 (Leitura -> Var IN ; .)
+    ;               reduce using rule 21 (Leitura -> Var IN ; .)
+    ELSE            reduce using rule 21 (Leitura -> Var IN ; .)
+    }               reduce using rule 21 (Leitura -> Var IN ; .)
+
+
+state 45
+
+    (22) Escrita -> OUT Var ; .
+
+    FUNC            reduce using rule 22 (Escrita -> OUT Var ; .)
+    OUT             reduce using rule 22 (Escrita -> OUT Var ; .)
+    IF              reduce using rule 22 (Escrita -> OUT Var ; .)
+    ID              reduce using rule 22 (Escrita -> OUT Var ; .)
+    WHILE           reduce using rule 22 (Escrita -> OUT Var ; .)
+    $end            reduce using rule 22 (Escrita -> OUT Var ; .)
+    RET             reduce using rule 22 (Escrita -> OUT Var ; .)
+    ;               reduce using rule 22 (Escrita -> OUT Var ; .)
+    ELSE            reduce using rule 22 (Escrita -> OUT Var ; .)
+    }               reduce using rule 22 (Escrita -> OUT Var ; .)
+
+
+state 46
+
+    (24) Condicao -> IF ExprCond Then . ListInstrucao ;
+    (25) Condicao -> IF ExprCond Then . ListInstrucao Else ListInstrucao ;
+    (14) ListInstrucao -> . ListInstrucao Instrucao
+    (15) ListInstrucao -> .
+
+    ;               reduce using rule 15 (ListInstrucao -> .)
+    ELSE            reduce using rule 15 (ListInstrucao -> .)
+    OUT             reduce using rule 15 (ListInstrucao -> .)
+    IF              reduce using rule 15 (ListInstrucao -> .)
+    ID              reduce using rule 15 (ListInstrucao -> .)
+    WHILE           reduce using rule 15 (ListInstrucao -> .)
+
+    ListInstrucao                  shift and go to state 71
+
+state 47
+
+    (30) ExprCond -> ExprCond & . Cond
+    (33) Cond -> . Expr EQUAL Expr
+    (34) Cond -> . Expr BIGGER Expr
+    (35) Cond -> . Expr BIGGEREQUAL Expr
+    (36) Cond -> . Expr SMALLER Expr
+    (37) Cond -> . Expr SMALLEREQUAL Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Cond                           shift and go to state 72
+    Expr                           shift and go to state 32
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 48
+
+    (31) ExprCond -> ExprCond | . Cond
+    (33) Cond -> . Expr EQUAL Expr
+    (34) Cond -> . Expr BIGGER Expr
+    (35) Cond -> . Expr BIGGEREQUAL Expr
+    (36) Cond -> . Expr SMALLER Expr
+    (37) Cond -> . Expr SMALLEREQUAL Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Cond                           shift and go to state 73
+    Expr                           shift and go to state 32
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 49
+
+    (28) Then -> THEN .
+
+    ;               reduce using rule 28 (Then -> THEN .)
+    ELSE            reduce using rule 28 (Then -> THEN .)
+    OUT             reduce using rule 28 (Then -> THEN .)
+    IF              reduce using rule 28 (Then -> THEN .)
+    ID              reduce using rule 28 (Then -> THEN .)
+    WHILE           reduce using rule 28 (Then -> THEN .)
+    {               reduce using rule 28 (Then -> THEN .)
+
+
+state 50
+
+    (33) Cond -> Expr EQUAL . Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 74
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 51
+
+    (34) Cond -> Expr BIGGER . Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 75
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 52
+
+    (35) Cond -> Expr BIGGEREQUAL . Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 76
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 53
+
+    (36) Cond -> Expr SMALLER . Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 77
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 54
+
+    (37) Cond -> Expr SMALLEREQUAL . Expr
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 78
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 55
+
+    (39) Expr -> Expr + . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Term                           shift and go to state 79
+    Factor                         shift and go to state 35
+
+state 56
+
+    (40) Expr -> Expr - . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Term                           shift and go to state 80
+    Factor                         shift and go to state 35
+
+state 57
+
+    (42) Term -> Term * . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Factor                         shift and go to state 81
+
+state 58
+
+    (43) Term -> Term / . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Factor                         shift and go to state 82
+
+state 59
+
+    (44) Term -> Term % . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Factor                         shift and go to state 83
+
+state 60
+
+    (47) Factor -> - INT .
+
+    *               reduce using rule 47 (Factor -> - INT .)
+    /               reduce using rule 47 (Factor -> - INT .)
+    %               reduce using rule 47 (Factor -> - INT .)
+    EQUAL           reduce using rule 47 (Factor -> - INT .)
+    BIGGER          reduce using rule 47 (Factor -> - INT .)
+    BIGGEREQUAL     reduce using rule 47 (Factor -> - INT .)
+    SMALLER         reduce using rule 47 (Factor -> - INT .)
+    SMALLEREQUAL    reduce using rule 47 (Factor -> - INT .)
+    +               reduce using rule 47 (Factor -> - INT .)
+    -               reduce using rule 47 (Factor -> - INT .)
+    ;               reduce using rule 47 (Factor -> - INT .)
+    &               reduce using rule 47 (Factor -> - INT .)
+    |               reduce using rule 47 (Factor -> - INT .)
+    THEN            reduce using rule 47 (Factor -> - INT .)
+
+
+state 61
+
+    (49) Factor -> - FLOAT .
+
+    *               reduce using rule 49 (Factor -> - FLOAT .)
+    /               reduce using rule 49 (Factor -> - FLOAT .)
+    %               reduce using rule 49 (Factor -> - FLOAT .)
+    EQUAL           reduce using rule 49 (Factor -> - FLOAT .)
+    BIGGER          reduce using rule 49 (Factor -> - FLOAT .)
+    BIGGEREQUAL     reduce using rule 49 (Factor -> - FLOAT .)
+    SMALLER         reduce using rule 49 (Factor -> - FLOAT .)
+    SMALLEREQUAL    reduce using rule 49 (Factor -> - FLOAT .)
+    +               reduce using rule 49 (Factor -> - FLOAT .)
+    -               reduce using rule 49 (Factor -> - FLOAT .)
+    ;               reduce using rule 49 (Factor -> - FLOAT .)
+    &               reduce using rule 49 (Factor -> - FLOAT .)
+    |               reduce using rule 49 (Factor -> - FLOAT .)
+    THEN            reduce using rule 49 (Factor -> - FLOAT .)
+
+
+state 62
+
+    (51) Factor -> - ID .
+
+    *               reduce using rule 51 (Factor -> - ID .)
+    /               reduce using rule 51 (Factor -> - ID .)
+    %               reduce using rule 51 (Factor -> - ID .)
+    EQUAL           reduce using rule 51 (Factor -> - ID .)
+    BIGGER          reduce using rule 51 (Factor -> - ID .)
+    BIGGEREQUAL     reduce using rule 51 (Factor -> - ID .)
+    SMALLER         reduce using rule 51 (Factor -> - ID .)
+    SMALLEREQUAL    reduce using rule 51 (Factor -> - ID .)
+    +               reduce using rule 51 (Factor -> - ID .)
+    -               reduce using rule 51 (Factor -> - ID .)
+    ;               reduce using rule 51 (Factor -> - ID .)
+    &               reduce using rule 51 (Factor -> - ID .)
+    |               reduce using rule 51 (Factor -> - ID .)
+    THEN            reduce using rule 51 (Factor -> - ID .)
+
+
+state 63
+
+    (52) Factor -> CALL ID .
+
+    *               reduce using rule 52 (Factor -> CALL ID .)
+    /               reduce using rule 52 (Factor -> CALL ID .)
+    %               reduce using rule 52 (Factor -> CALL ID .)
+    EQUAL           reduce using rule 52 (Factor -> CALL ID .)
+    BIGGER          reduce using rule 52 (Factor -> CALL ID .)
+    BIGGEREQUAL     reduce using rule 52 (Factor -> CALL ID .)
+    SMALLER         reduce using rule 52 (Factor -> CALL ID .)
+    SMALLEREQUAL    reduce using rule 52 (Factor -> CALL ID .)
+    +               reduce using rule 52 (Factor -> CALL ID .)
+    -               reduce using rule 52 (Factor -> CALL ID .)
+    ;               reduce using rule 52 (Factor -> CALL ID .)
+    &               reduce using rule 52 (Factor -> CALL ID .)
+    |               reduce using rule 52 (Factor -> CALL ID .)
+    THEN            reduce using rule 52 (Factor -> CALL ID .)
+
+
+state 64
+
+    (26) Ciclo -> While ExprCond Then . { ListInstrucao }
+
+    {               shift and go to state 84
+
+
+state 65
+
+    (5) Declaracao -> Type ID = . Expr ;
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 85
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 66
+
+    (6) Declaracao -> Type ID ; .
+
+    }               reduce using rule 6 (Declaracao -> Type ID ; .)
+    ID              reduce using rule 6 (Declaracao -> Type ID ; .)
+
+
+state 67
+
+    (11) Funcao -> DecFunc { ListInstrucao Ret . }
+
+    }               shift and go to state 86
+
+
+state 68
+
+    (14) ListInstrucao -> ListInstrucao Instrucao .
+
+    RET             reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    OUT             reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    IF              reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    ID              reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    WHILE           reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    ;               reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    ELSE            reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+    }               reduce using rule 14 (ListInstrucao -> ListInstrucao Instrucao .)
+
+
+state 69
+
+    (13) Ret -> RET . Expr ;
+    (39) Expr -> . Expr + Term
+    (40) Expr -> . Expr - Term
+    (41) Expr -> . Term
+    (42) Term -> . Term * Factor
+    (43) Term -> . Term / Factor
+    (44) Term -> . Term % Factor
+    (45) Term -> . Factor
+    (46) Factor -> . INT
+    (47) Factor -> . - INT
+    (48) Factor -> . FLOAT
+    (49) Factor -> . - FLOAT
+    (50) Factor -> . ID
+    (51) Factor -> . - ID
+    (52) Factor -> . CALL ID
+
+    INT             shift and go to state 36
+    -               shift and go to state 34
+    FLOAT           shift and go to state 37
+    ID              shift and go to state 38
+    CALL            shift and go to state 39
+
+    Expr                           shift and go to state 87
+    Term                           shift and go to state 33
+    Factor                         shift and go to state 35
+
+state 70
+
+    (23) Atribuicao -> Var = Expr ; .
+
+    FUNC            reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    OUT             reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    IF              reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    ID              reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    WHILE           reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    $end            reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    RET             reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    ;               reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    ELSE            reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+    }               reduce using rule 23 (Atribuicao -> Var = Expr ; .)
+
+
+state 71
+
+    (24) Condicao -> IF ExprCond Then ListInstrucao . ;
+    (25) Condicao -> IF ExprCond Then ListInstrucao . Else ListInstrucao ;
+    (14) ListInstrucao -> ListInstrucao . Instrucao
+    (29) Else -> . ELSE
+    (16) Instrucao -> . Atribuicao
+    (17) Instrucao -> . Leitura
+    (18) Instrucao -> . Escrita
+    (19) Instrucao -> . Condicao
+    (20) Instrucao -> . Ciclo
+    (23) Atribuicao -> . Var = Expr ;
+    (21) Leitura -> . Var IN ;
+    (22) Escrita -> . OUT Var ;
+    (24) Condicao -> . IF ExprCond Then ListInstrucao ;
+    (25) Condicao -> . IF ExprCond Then ListInstrucao Else ListInstrucao ;
+    (26) Ciclo -> . While ExprCond Then { ListInstrucao }
+    (38) Var -> . ID
+    (27) While -> . WHILE
+
+    ;               shift and go to state 88
+    ELSE            shift and go to state 90
+    OUT             shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 15
+    WHILE           shift and go to state 20
+
+    Else                           shift and go to state 89
+    Instrucao                      shift and go to state 68
+    Atribuicao                     shift and go to state 9
+    Leitura                        shift and go to state 10
+    Escrita                        shift and go to state 11
+    Condicao                       shift and go to state 12
+    Ciclo                          shift and go to state 13
+    Var                            shift and go to state 16
+    While                          shift and go to state 19
+
+state 72
+
+    (30) ExprCond -> ExprCond & Cond .
+
+    &               reduce using rule 30 (ExprCond -> ExprCond & Cond .)
+    |               reduce using rule 30 (ExprCond -> ExprCond & Cond .)
+    THEN            reduce using rule 30 (ExprCond -> ExprCond & Cond .)
+
+
+state 73
+
+    (31) ExprCond -> ExprCond | Cond .
+
+    &               reduce using rule 31 (ExprCond -> ExprCond | Cond .)
+    |               reduce using rule 31 (ExprCond -> ExprCond | Cond .)
+    THEN            reduce using rule 31 (ExprCond -> ExprCond | Cond .)
+
+
+state 74
+
+    (33) Cond -> Expr EQUAL Expr .
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    &               reduce using rule 33 (Cond -> Expr EQUAL Expr .)
+    |               reduce using rule 33 (Cond -> Expr EQUAL Expr .)
+    THEN            reduce using rule 33 (Cond -> Expr EQUAL Expr .)
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 75
+
+    (34) Cond -> Expr BIGGER Expr .
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    &               reduce using rule 34 (Cond -> Expr BIGGER Expr .)
+    |               reduce using rule 34 (Cond -> Expr BIGGER Expr .)
+    THEN            reduce using rule 34 (Cond -> Expr BIGGER Expr .)
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 76
+
+    (35) Cond -> Expr BIGGEREQUAL Expr .
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    &               reduce using rule 35 (Cond -> Expr BIGGEREQUAL Expr .)
+    |               reduce using rule 35 (Cond -> Expr BIGGEREQUAL Expr .)
+    THEN            reduce using rule 35 (Cond -> Expr BIGGEREQUAL Expr .)
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 77
+
+    (36) Cond -> Expr SMALLER Expr .
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    &               reduce using rule 36 (Cond -> Expr SMALLER Expr .)
+    |               reduce using rule 36 (Cond -> Expr SMALLER Expr .)
+    THEN            reduce using rule 36 (Cond -> Expr SMALLER Expr .)
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 78
+
+    (37) Cond -> Expr SMALLEREQUAL Expr .
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    &               reduce using rule 37 (Cond -> Expr SMALLEREQUAL Expr .)
+    |               reduce using rule 37 (Cond -> Expr SMALLEREQUAL Expr .)
+    THEN            reduce using rule 37 (Cond -> Expr SMALLEREQUAL Expr .)
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 79
+
+    (39) Expr -> Expr + Term .
+    (42) Term -> Term . * Factor
+    (43) Term -> Term . / Factor
+    (44) Term -> Term . % Factor
+
+    EQUAL           reduce using rule 39 (Expr -> Expr + Term .)
+    BIGGER          reduce using rule 39 (Expr -> Expr + Term .)
+    BIGGEREQUAL     reduce using rule 39 (Expr -> Expr + Term .)
+    SMALLER         reduce using rule 39 (Expr -> Expr + Term .)
+    SMALLEREQUAL    reduce using rule 39 (Expr -> Expr + Term .)
+    +               reduce using rule 39 (Expr -> Expr + Term .)
+    -               reduce using rule 39 (Expr -> Expr + Term .)
+    ;               reduce using rule 39 (Expr -> Expr + Term .)
+    &               reduce using rule 39 (Expr -> Expr + Term .)
+    |               reduce using rule 39 (Expr -> Expr + Term .)
+    THEN            reduce using rule 39 (Expr -> Expr + Term .)
+    *               shift and go to state 57
+    /               shift and go to state 58
+    %               shift and go to state 59
+
+
+state 80
+
+    (40) Expr -> Expr - Term .
+    (42) Term -> Term . * Factor
+    (43) Term -> Term . / Factor
+    (44) Term -> Term . % Factor
+
+    EQUAL           reduce using rule 40 (Expr -> Expr - Term .)
+    BIGGER          reduce using rule 40 (Expr -> Expr - Term .)
+    BIGGEREQUAL     reduce using rule 40 (Expr -> Expr - Term .)
+    SMALLER         reduce using rule 40 (Expr -> Expr - Term .)
+    SMALLEREQUAL    reduce using rule 40 (Expr -> Expr - Term .)
+    +               reduce using rule 40 (Expr -> Expr - Term .)
+    -               reduce using rule 40 (Expr -> Expr - Term .)
+    ;               reduce using rule 40 (Expr -> Expr - Term .)
+    &               reduce using rule 40 (Expr -> Expr - Term .)
+    |               reduce using rule 40 (Expr -> Expr - Term .)
+    THEN            reduce using rule 40 (Expr -> Expr - Term .)
+    *               shift and go to state 57
+    /               shift and go to state 58
+    %               shift and go to state 59
+
+
+state 81
+
+    (42) Term -> Term * Factor .
+
+    *               reduce using rule 42 (Term -> Term * Factor .)
+    /               reduce using rule 42 (Term -> Term * Factor .)
+    %               reduce using rule 42 (Term -> Term * Factor .)
+    EQUAL           reduce using rule 42 (Term -> Term * Factor .)
+    BIGGER          reduce using rule 42 (Term -> Term * Factor .)
+    BIGGEREQUAL     reduce using rule 42 (Term -> Term * Factor .)
+    SMALLER         reduce using rule 42 (Term -> Term * Factor .)
+    SMALLEREQUAL    reduce using rule 42 (Term -> Term * Factor .)
+    +               reduce using rule 42 (Term -> Term * Factor .)
+    -               reduce using rule 42 (Term -> Term * Factor .)
+    ;               reduce using rule 42 (Term -> Term * Factor .)
+    &               reduce using rule 42 (Term -> Term * Factor .)
+    |               reduce using rule 42 (Term -> Term * Factor .)
+    THEN            reduce using rule 42 (Term -> Term * Factor .)
+
+
+state 82
+
+    (43) Term -> Term / Factor .
+
+    *               reduce using rule 43 (Term -> Term / Factor .)
+    /               reduce using rule 43 (Term -> Term / Factor .)
+    %               reduce using rule 43 (Term -> Term / Factor .)
+    EQUAL           reduce using rule 43 (Term -> Term / Factor .)
+    BIGGER          reduce using rule 43 (Term -> Term / Factor .)
+    BIGGEREQUAL     reduce using rule 43 (Term -> Term / Factor .)
+    SMALLER         reduce using rule 43 (Term -> Term / Factor .)
+    SMALLEREQUAL    reduce using rule 43 (Term -> Term / Factor .)
+    +               reduce using rule 43 (Term -> Term / Factor .)
+    -               reduce using rule 43 (Term -> Term / Factor .)
+    ;               reduce using rule 43 (Term -> Term / Factor .)
+    &               reduce using rule 43 (Term -> Term / Factor .)
+    |               reduce using rule 43 (Term -> Term / Factor .)
+    THEN            reduce using rule 43 (Term -> Term / Factor .)
+
+
+state 83
+
+    (44) Term -> Term % Factor .
+
+    *               reduce using rule 44 (Term -> Term % Factor .)
+    /               reduce using rule 44 (Term -> Term % Factor .)
+    %               reduce using rule 44 (Term -> Term % Factor .)
+    EQUAL           reduce using rule 44 (Term -> Term % Factor .)
+    BIGGER          reduce using rule 44 (Term -> Term % Factor .)
+    BIGGEREQUAL     reduce using rule 44 (Term -> Term % Factor .)
+    SMALLER         reduce using rule 44 (Term -> Term % Factor .)
+    SMALLEREQUAL    reduce using rule 44 (Term -> Term % Factor .)
+    +               reduce using rule 44 (Term -> Term % Factor .)
+    -               reduce using rule 44 (Term -> Term % Factor .)
+    ;               reduce using rule 44 (Term -> Term % Factor .)
+    &               reduce using rule 44 (Term -> Term % Factor .)
+    |               reduce using rule 44 (Term -> Term % Factor .)
+    THEN            reduce using rule 44 (Term -> Term % Factor .)
+
+
+state 84
+
+    (26) Ciclo -> While ExprCond Then { . ListInstrucao }
+    (14) ListInstrucao -> . ListInstrucao Instrucao
+    (15) ListInstrucao -> .
+
+    }               reduce using rule 15 (ListInstrucao -> .)
+    OUT             reduce using rule 15 (ListInstrucao -> .)
+    IF              reduce using rule 15 (ListInstrucao -> .)
+    ID              reduce using rule 15 (ListInstrucao -> .)
+    WHILE           reduce using rule 15 (ListInstrucao -> .)
+
+    ListInstrucao                  shift and go to state 91
+
+state 85
+
+    (5) Declaracao -> Type ID = Expr . ;
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    ;               shift and go to state 92
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 86
+
+    (11) Funcao -> DecFunc { ListInstrucao Ret } .
+
+    FUNC            reduce using rule 11 (Funcao -> DecFunc { ListInstrucao Ret } .)
+    OUT             reduce using rule 11 (Funcao -> DecFunc { ListInstrucao Ret } .)
+    IF              reduce using rule 11 (Funcao -> DecFunc { ListInstrucao Ret } .)
+    ID              reduce using rule 11 (Funcao -> DecFunc { ListInstrucao Ret } .)
+    WHILE           reduce using rule 11 (Funcao -> DecFunc { ListInstrucao Ret } .)
+    $end            reduce using rule 11 (Funcao -> DecFunc { ListInstrucao Ret } .)
+
+
+state 87
+
+    (13) Ret -> RET Expr . ;
+    (39) Expr -> Expr . + Term
+    (40) Expr -> Expr . - Term
+
+    ;               shift and go to state 93
+    +               shift and go to state 55
+    -               shift and go to state 56
+
+
+state 88
+
+    (24) Condicao -> IF ExprCond Then ListInstrucao ; .
+
+    FUNC            reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    OUT             reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    IF              reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    ID              reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    WHILE           reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    $end            reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    RET             reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    ;               reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    ELSE            reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+    }               reduce using rule 24 (Condicao -> IF ExprCond Then ListInstrucao ; .)
+
+
+state 89
+
+    (25) Condicao -> IF ExprCond Then ListInstrucao Else . ListInstrucao ;
+    (14) ListInstrucao -> . ListInstrucao Instrucao
+    (15) ListInstrucao -> .
+
+    ;               reduce using rule 15 (ListInstrucao -> .)
+    OUT             reduce using rule 15 (ListInstrucao -> .)
+    IF              reduce using rule 15 (ListInstrucao -> .)
+    ID              reduce using rule 15 (ListInstrucao -> .)
+    WHILE           reduce using rule 15 (ListInstrucao -> .)
+
+    ListInstrucao                  shift and go to state 94
+
+state 90
+
+    (29) Else -> ELSE .
+
+    ;               reduce using rule 29 (Else -> ELSE .)
+    OUT             reduce using rule 29 (Else -> ELSE .)
+    IF              reduce using rule 29 (Else -> ELSE .)
+    ID              reduce using rule 29 (Else -> ELSE .)
+    WHILE           reduce using rule 29 (Else -> ELSE .)
+
+
+state 91
+
+    (26) Ciclo -> While ExprCond Then { ListInstrucao . }
+    (14) ListInstrucao -> ListInstrucao . Instrucao
+    (16) Instrucao -> . Atribuicao
+    (17) Instrucao -> . Leitura
+    (18) Instrucao -> . Escrita
+    (19) Instrucao -> . Condicao
+    (20) Instrucao -> . Ciclo
+    (23) Atribuicao -> . Var = Expr ;
+    (21) Leitura -> . Var IN ;
+    (22) Escrita -> . OUT Var ;
+    (24) Condicao -> . IF ExprCond Then ListInstrucao ;
+    (25) Condicao -> . IF ExprCond Then ListInstrucao Else ListInstrucao ;
+    (26) Ciclo -> . While ExprCond Then { ListInstrucao }
+    (38) Var -> . ID
+    (27) While -> . WHILE
+
+    }               shift and go to state 95
+    OUT             shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 15
+    WHILE           shift and go to state 20
+
+    While                          shift and go to state 19
+    Instrucao                      shift and go to state 68
+    Atribuicao                     shift and go to state 9
+    Leitura                        shift and go to state 10
+    Escrita                        shift and go to state 11
+    Condicao                       shift and go to state 12
+    Ciclo                          shift and go to state 13
+    Var                            shift and go to state 16
+
+state 92
+
+    (5) Declaracao -> Type ID = Expr ; .
+
+    }               reduce using rule 5 (Declaracao -> Type ID = Expr ; .)
+    ID              reduce using rule 5 (Declaracao -> Type ID = Expr ; .)
+
+
+state 93
+
+    (13) Ret -> RET Expr ; .
+
+    }               reduce using rule 13 (Ret -> RET Expr ; .)
+
+
+state 94
+
+    (25) Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao . ;
+    (14) ListInstrucao -> ListInstrucao . Instrucao
+    (16) Instrucao -> . Atribuicao
+    (17) Instrucao -> . Leitura
+    (18) Instrucao -> . Escrita
+    (19) Instrucao -> . Condicao
+    (20) Instrucao -> . Ciclo
+    (23) Atribuicao -> . Var = Expr ;
+    (21) Leitura -> . Var IN ;
+    (22) Escrita -> . OUT Var ;
+    (24) Condicao -> . IF ExprCond Then ListInstrucao ;
+    (25) Condicao -> . IF ExprCond Then ListInstrucao Else ListInstrucao ;
+    (26) Ciclo -> . While ExprCond Then { ListInstrucao }
+    (38) Var -> . ID
+    (27) While -> . WHILE
+
+    ;               shift and go to state 96
+    OUT             shift and go to state 17
+    IF              shift and go to state 18
+    ID              shift and go to state 15
+    WHILE           shift and go to state 20
+
+    Instrucao                      shift and go to state 68
+    Atribuicao                     shift and go to state 9
+    Leitura                        shift and go to state 10
+    Escrita                        shift and go to state 11
+    Condicao                       shift and go to state 12
+    Ciclo                          shift and go to state 13
+    Var                            shift and go to state 16
+    While                          shift and go to state 19
+
+state 95
+
+    (26) Ciclo -> While ExprCond Then { ListInstrucao } .
+
+    FUNC            reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    OUT             reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    IF              reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    ID              reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    WHILE           reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    $end            reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    RET             reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    ;               reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    ELSE            reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+    }               reduce using rule 26 (Ciclo -> While ExprCond Then { ListInstrucao } .)
+
+
+state 96
+
+    (25) Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .
+
+    FUNC            reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    OUT             reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    IF              reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    ID              reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    WHILE           reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    $end            reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    RET             reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    ;               reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    ELSE            reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+    }               reduce using rule 25 (Condicao -> IF ExprCond Then ListInstrucao Else ListInstrucao ; .)
+

@@ -1,14 +1,12 @@
 import ply.lex as lex
 
-import sys
+tokens = ['ID','INT','FLOAT','READ','WRITE','EQUAL','BIGGER','BIGGEREQUAL','SMALLER','SMALLEREQUAL','RET','IF','DO','ELSE','WHILE','FUNC','CALL','REPEAT','UNTIL','FOR']
 
-tokens = ['ID','INT','FLOAT','IN','OUT','EQUAL','BIGGER','BIGGEREQUAL','SMALLER','SMALLEREQUAL','RET','IF','THEN','ELSE','WHILE','FUNC','CALL']
-
-literals = [';','=','+','-','*','/','%','{','}','&','|',':']
+literals = [';','=','+','-','*','/','%','{','}','&','|',':','(',')','[',']']
 
 t_IF = r'<if>'
 
-t_THEN = r'<then>'
+t_DO = r'<do>'
 
 t_ELSE = r'<else>'
 
@@ -16,13 +14,19 @@ t_FUNC = r'<func>'
 
 t_WHILE = r'<while>'
 
+t_REPEAT = r'<repeat>'
+
+t_UNTIL = r'<until>'
+
+t_FOR = r'<for>'
+
 t_CALL = r'<call>'
 
 t_RET = r'<ret>'
 
-t_IN = r'<<'
+t_READ = r'<read>'
 
-t_OUT = r'>>'
+t_WRITE = r'<write>'
 
 t_EQUAL = r'=='
 

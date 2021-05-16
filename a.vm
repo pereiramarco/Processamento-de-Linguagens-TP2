@@ -1,97 +1,15 @@
-pushf 1.9
-ftoi
-pushi 0
-pushi 0
-pushi 10
-pushi 0
-pushi 9
-pushi 8
-pushi 7
-pushi 6
-jump af0
-nome :
-read
-dup 1
-atoi
-storeg 1
-free
-read
-dup 1
-atoi
-storeg 2
-free
-pushg 1
-pushg 2
-add
-storel -1
-return
-af0 :
-read
-dup 1
-atoi
-storeg 1
-free
-pushg 1
-pushi 10
-equal
-jz e1
-pushg 3
-writei
-jump t1
-e1 :
-pushg 1
-pushi 9
-equal
-jz e2
-pushg 5
-writei
-jump t2
-e2 :
-pushg 1
-pushi 8
-equal
-jz e3
-pushg 6
-writei
-jump t3
-e3 :
-pushg 1
-pushi 7
-equal
-jz e4
-pushg 7
-writei
-jump t4
-e4 :
-pushg 1
-pushi 6
-equal
-jz e5
-pushg 8
-writei
-jump t5
-e5 :
-c6 :
-pushg 1
-pushi 0
-sup
-jz e7
-pushg 1
-writei
-pushg 1
+start
 pushi 1
-sub
-storeg 1
-jump c6
-e7 :
 pushi 0
-pusha nome
-call
-storeg 1
-pushg 1
-writei
-t5 :
-t4 :
-t3 :
-t2 :
-t1 :
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushi 1
+storeg 2

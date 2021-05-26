@@ -1,6 +1,7 @@
 import ply.lex as lex
 
-tokens = ['ID','INT','FLOAT','READ','WRITE','EQUAL','BIGGER','BIGGEREQUAL','SMALLER','SMALLEREQUAL','RET','IF','DO','ELSE','WHILE','FUNC','CALL','REPEAT','UNTIL','FOR']
+tokens = ['ID','INT','FLOAT','STRING','READ','WRITE','EQUAL','BIGGER','BIGGEREQUAL',
+'SMALLER','SMALLEREQUAL','RET','IF','DO','ELSE','WHILE','FUNC','CALL','REPEAT','UNTIL','FOR']
 
 literals = [';','=','+','-','*','/','%','{','}','&','|',':','(',')','[',']']
 
@@ -42,9 +43,9 @@ t_FLOAT = r'\d+\.\d+'
 
 t_INT = r'\d+'
 
-#t_STRING = r'\"[^\"]*\"'
+t_STRING = r'\"([^"]|\\\")*\"'
 
-t_ID = r'[a-zA-Z]([a-zA-Z]|\d)*'
+t_ID = r'[a-zA-Z]([a-zA-Z]|_|\d)*'
 
 t_ignore = " \t\n"
 

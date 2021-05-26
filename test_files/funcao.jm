@@ -1,0 +1,13 @@
+{
+    int i;
+}
+
+<func> funcao {
+    {
+        int k;
+    }
+    k=1+2;
+    <ret> k;
+}
+
+i = <call> funcao;

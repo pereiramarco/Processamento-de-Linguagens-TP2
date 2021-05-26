@@ -1,0 +1,187 @@
+{
+    int read=1;
+    string output;
+}
+
+<func> readsquare {
+    {
+        float lado1;
+        float lado2;
+        float lado3;
+        float lado4;
+    }
+
+    <write> "Insira o comprimento de um lado:";
+    <read> lado1;
+
+    <write> "Insira o comprimento de um lado:";
+    <read> lado2;
+
+    <write> "Insira o comprimento de um lado:";
+    <read> lado3;
+
+    <write> "Insira o comprimento de um lado:";
+    <read> lado4;
+
+    <if> lado1==lado2 & lado2==lado3 & lado3==lado4 <do> {
+        <ret> "Podem ser lados de um quadrado\n";
+    }
+    <else> {
+        <ret> "Não podem ser lados de um quadrado\n";
+    }
+    ;
+}
+
+<func> readminimum {
+    {
+        int quantos_ler;
+        int i;
+        float atual;
+        float menor;
+    }
+    <write> "Quantos números deseja ler?";
+    <read> quantos_ler;
+    <for>(i=0;i<quantos_ler;i=i+1;){
+        <write> "Insira um número:";
+        <read> atual;
+        <if> atual<menor | i==0 <do> {
+            menor=atual;
+        }
+        ;
+    }
+    <ret> "O menor valor lido é: " + menor + "\n";
+}
+
+<func> calcprodutorio {
+    {
+        int how_many_to_read;
+        float produtorio=1;
+        float atual;
+        int i;
+    }
+    <write> "Quantos números deseja ler?";
+    <read> how_many_to_read;
+    <for>(i=0;i<how_many_to_read;i=i+1;){
+        <read>atual;
+        produtorio=produtorio*atual;
+    }
+    <ret> "O produtório dos valores inseridos é: " + produtorio;
+}
+
+<func> readodd {
+    {
+        int quantos_ler;
+        int i;
+        int quantos;
+        string res;
+    }
+
+    <write> "Quantos números deseja ler?";
+    <read> quantos_ler;
+    
+    <for>(i=1;i<=quantos_ler;i=i+1;){
+        <if> i%2==1 <do> {
+            quantos=quantos+1;
+            res = "O valor " + i + 1;
+            <write> res + " é impar !\n";
+        }
+        ;
+    }
+    res = "O número de valores impares encontrados é: " + quantos;
+    <ret> res + "\n";
+}
+
+#Funcionalidade que poderia ser melhorada com a adiçaõ de acesso através de variáveis
+
+<func> readarray {
+    {
+        float[5] lidos;
+    }
+    <read> lidos[0];
+    <read> lidos[1];
+    <read> lidos[2];
+    <read> lidos[3];
+    <read> lidos[4];
+    <write> lidos[4];
+    <write> lidos[3];
+    <write> lidos[2];
+    <write> lidos[1];
+    <write> lidos[0];
+    <ret> "Função concluida";
+}
+
+<func> potencia {
+    {
+        float base;
+        float res=1;
+        float expoente;
+    }
+    <write> "Insira a base: ";
+    <read> base;
+    <write> "Insira o expoente: ";
+    <read> expoente;
+    <if> expoente>=0 <do> {
+        <while> expoente>0 <do> {
+            res = res * base ;
+            expoente=expoente-1;
+        }
+    }
+    <else> {
+        <while> expoente<0 <do> {
+            res = res / base ;
+            expoente=expoente+1;
+        }
+    }
+    ;
+    <ret> "O resultado proveniente da potenciação é: " + res;
+}
+
+<while> read>0 <do> {
+    <write>"0 - Sair\n";
+    <write>"1 - Ler 4 números e testar se podem pertencer a um quadrado\n";
+    <write>"2 - Ler N números e determinar o menor deles\n";
+    <write>"3 - Ler N números e determinar o seu produtório\n";
+    <write>"4 - Contar e imprimir os N primeiros impares\n";
+    <write>"5 - Ler 5 números para um array e imprimir o inverso dos mesmos\n";
+    <write>"6 - Calcular potenciação com base N e expoente E\n";
+    <write>"Insira a opção da função que deseja testar: ";
+    <read> read;
+    <if> read==1 <do> {
+        output = <call> readsquare;
+    }
+    <else> {
+        <if> read==2 <do> {
+            output = <call> readminimum;
+        }
+        <else> {
+            <if> read==3 <do> {
+                output = <call> calcprodutorio;
+            }
+            <else> {
+                <if> read==4 <do> {
+                    output = <call> readodd;
+                }
+                <else> {
+                    <if> read==5 <do> {
+                        output = <call> readarray;
+                    }
+                    <else> {
+                        <if> read==6 <do> {
+                            output = <call> potencia;
+                        }
+                        <else> {
+                            output="Obrigado por usar o nosso programa!\n";
+                        }
+                        ;
+                    }
+                    ;
+                }
+                ;
+            }
+            ;
+        }
+        ;
+    }
+    ;
+    <write> output;
+}

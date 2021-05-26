@@ -1,0 +1,34 @@
+{
+string ret;
+}
+
+<func> potencia {
+    {
+        float base;
+        float res=1;
+        float expoente;
+    }
+    <write> "Insira a base: ";
+    <read> base;
+    <write> "Insira o expoente: ";
+    <read> expoente;
+    <if> expoente>=0 <do> {
+        <while> expoente>0 <do> {
+            res = res * base ;
+            expoente=expoente-1;
+        }
+    }
+    <else> {
+        <while> expoente<0 <do> {
+            res = res / base ;
+            expoente=expoente+1;
+        }
+    }
+    ;
+    <ret> "O resultado proveniente da potenciação é: " + res;
+}
+
+
+ret = <call> potencia;
+
+<write> ret;

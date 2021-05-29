@@ -1,0 +1,21 @@
+{
+int t;
+}
+
+<read> t;
+
+<if> t==1 <do>
+    {
+        <write> "Olá Mundo\n";
+    }
+<else> {
+    <if> t!=2 <do>
+    {
+        <write> "Não escreveste 2\n";
+    }
+    <else> {
+        <write> "Escreveste 2\n";
+    }
+    ;
+}
+;

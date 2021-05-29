@@ -527,6 +527,10 @@ def p_Cond_equals(p):
     "Cond : Expr EQUAL Expr"
     p.parser.compiled+= p[1] + p[3] + "equal\n"
 
+def p_Cond_not_equals(p):
+    "Cond : Expr NOTEQUAL Expr"
+    p.parser.compiled+= p[1] + p[3] + "equal\nnot\n"
+
 def p_Cond_bigger(p):
     "Cond : Expr BIGGER Expr"
     p.parser.compiled+= p[1] + p[3] + "sup\n"

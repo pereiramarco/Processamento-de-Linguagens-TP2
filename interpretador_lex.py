@@ -1,6 +1,6 @@
 import ply.lex as lex
 
-tokens = ['ID','INT','FLOAT','STRING','READ','WRITE','EQUAL','BIGGER','BIGGEREQUAL',
+tokens = ['ID','INT','FLOAT','STRING','READ','WRITE','EQUAL', 'NOTEQUAL','BIGGER','BIGGEREQUAL',
 'SMALLER','SMALLEREQUAL','RET','IF','DO','ELSE','WHILE','FUNC','CALL','REPEAT','UNTIL','FOR']
 
 literals = [';','=','+','-','*','/','%','{','}','&','|',':','(',')','[',']']
@@ -30,6 +30,8 @@ t_READ = r'<read>'
 t_WRITE = r'<write>'
 
 t_EQUAL = r'=='
+
+t_NOTEQUAL = r'!='
 
 t_BIGGER = r'>'
 

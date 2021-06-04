@@ -12,78 +12,81 @@ N:{Inicio,Start,Variaveis,Codigo,Declaracoes,Declaracao,
 S: Inicio
 
 P:{
-    p1: Inicio => Start Variaveis Codigo
-    p2: Start => 
-    p3: Variaveis => '{' Declaracoes '}'
-    p4: Declaracoes => Declaracoes Declaracao
-    p5:             |
-    p6: Declaracao => Type ID ';'
-    p7:            | '=' Expr ';'
-    p8:            | Array ID ';'
-    p9: Type => ID
-    p10: Array => '[' INT ']' '[' INT ']'
-    p11:       |  '[' INT ']'
-    p12: Expr => Expr '+' Term
-    p13:      |  Expr '-' Term
-    p14:      | Term
-    p15: Term => Term '*' Factor
-    p16:      |  Term '/' Factor
-    p17:      |  Term '%' Factor
-    p18:      |  Factor
-    p19: Factor => INT
-    p20:        | '-' INT
-    p21:        | FLOAT
-    p22:        | '-' FLOAT
-    p23:        | ID
-    p24:        | ID '[' INT ']' 
-    p25:        | ID '[' INT ']' '[' INT ']'
-    p26:        | CALL ID
-    p27: Codigo => Funcao Codigo 
-    p28:        | Instrucao Codigo 
-    p29:        | 
-    p30: Funcao => DecFunc '{' Variaveis ListInstrucao Ret '}'
-    p31: DecFunc => FUNC ID
-    p32: Ret => RET Expr ';' 
-    p33: ListInstrucao => ListInstrucao Instrucao
-    p34:               | 
-    p35: Instrucao => Atribuicao
-    p36:           | Leitura
-    p37:           | Escrita
-    p38:           | Condicao
-    p39:           | Ciclo
-    p40: Atribuicao => Var '=' Expr ';'
-    p41: Var => ID
-    p42:     |  ID '[' INT ']'
-    p43:     |  ID '[' INT ']' '[' INT ']'
-    p44: Leitura => READ Var ';'
-    p45: Escrita => WRITE Var ';'
-    p46: Condicao => IF ExprCond Do '{' ListInstrucao '}' ';'
-    p47:          |  IF ExprCond Do '{' ListInstrucao '}' Else '{' ListInstrucao '}' ';'
-    p48: Do => DO
-    p49: Else => ELSE
-    p50: ExprCond => ExprCond '&' Cond
-    p51:          |  ExprCond '|' Cond
-    p52:          |
-    p53: Cond => Expr EQUAL Expr
-    p54:      |  Expr BIGGER Expr
-    p55:      |  Expr BIGGEREQUAL Expr
-    p56:      |  Expr SMALLER Expr
-    p57:      |  Expr SMALLEREQUAL Expr
-    p58: Ciclo => CicloWhile
-    p59:       | CicloRepeat       
-    p60:       | CicloFor
-    p61: CicloWhile => While ExprCond Do '{' ListInstrucao '}'
-    p62: While => WHILE
-    p63: CicloRepeat => Repeat '{' ListInstrucao '}' Until ExprCond
-    p64: Repeat => REPEAT
-    p65: Until => UNTIL
-    p66: CicloFor => FOR '(' AtribuicaoInicial ExprCond EndCond Atribuicao ')' '{' ListInstrucao '}'
-    p67: AtribuicaoInicial => Atribuicao
-    p68: EndCond => ';'
+    Rule 0 S’ ->Inicio
+    Rule 1 Inicio -> Variaveis Start Codigo
+    Rule 2 Start -> 
+    Rule 3 Variaveis -> Declaracoes
+    Rule 4 Declaracoes -> Declaracoes Declaracao
+    Rule 5 Declaracoes -> <empty>
+    Rule 6 Declaracao -> Type ID ;
+    Rule 7 Declaracao -> Type ID = Expr ;
+    Rule 8 Declaracao -> Type Array ID ;
+    Rule 9 Type -> ID
+    Rule 10 Array -> '[' INT ']' ContArray
+    Rule 11 ContArray -> [ INT ]
+    Rule 12 ContArray -> <empty>
+    Rule 13 Expr -> Expr + Term
+    Rule 14 Expr -> Expr - Term
+    Rule 15 Expr -> Term
+    Rule 16 Term -> Term * Factor
+    Rule 17 Term -> Term / Factor
+    Rule 18 Term -> Term % Factor
+    Rule 19 Term -> Factor
+    Rule 20 Factor -> INT
+    Rule 21 Factor -> - INT
+    Rule 22 Factor -> FLOAT
+    Rule 23 Factor -> - FLOAT
+    Rule 24 Factor -> STRINGInstrucao
+    Rule 26 Factor -> ID
+    Rule 30 Codigo -> Codigo Funcao
+    Rule 31 Codigo -> Codigo Instrucao
+    Rule 32 Codigo -> <empty>
+    Rule 33 Funcao -> DecFunc '{' Variaveis ListInstrucao EndFunc
+    Rule 34 DecFunc -> FUNC ID
+    Rule 35 EndFunc -> '}'
+    Rule 36 Ret -> RET Expr ;
+    Rule 37 ListInstrucao -> ListInstrucao Instrucao
+    Rule 38 ListInstrucao ->
+    Rule 39 Instrucao -> Atribuicao
+    Rule 40 Instrucao -> Leitura
+    Rule 41 Instrucao -> Escrita
+    Rule 42 Instrucao -> Condicao
+    Rule 43 Instrucao -> Ciclo
+    Rule 44 Instrucao -> Ret
+    Rule 45 Atribuicao -> Var = Expr ;
+    Rule 46 Var -> ID ContinuacaoVar
+    Rule 47 ContinuacaoVar -> '[' INT ']' ContContinuacaoVar
+    Rule 48 ContinuacaoVar -> 
+    Rule 49 ContContinuacaoVar -> '[' INT ']'
+    Rule 50 ContContinuacaoVar -> 
+    Rule 51 Leitura -> READ Var ;
+    Rule 52 Escrita -> WRITE Expr ;
+    Rule 53 Condicao -> IF ExprCond Do ListInstrucao ;
+    Rule 54 Condicao -> IF ExprCond Do ListInstrucao Else ListInstrucao ;
+    Rule 55 Do -> DO
+    Rule 56 Else -> ELSE
+    Rule 57 ExprCond ->ExprCond & Cond
+    Rule 58 ExprCond ->ExprCond | Cond
+    Rule 59 ExprCond -> Cond
+    Rule 60 Cond -> Expr EQUAL Expr
+    Rule 61 Cond -> Expr NOTEQUAL Expr
+    Rule 62 Cond -> Expr BIGGER Expr
+    Rule 63 Cond -> Expr SMALLER Expr
+    Rule 64 Cond -> Expr BIGGEREQUAL Expr
+    Rule 65 Cond ->Expr SMALLEREQUAL Expr
+    Rule 66 Ciclo -> CicloWhile 
+    Rule 67 Ciclo -> CicloRepeat
+    Rule 68 Ciclo -> CicloFor
+    Rule 69 CicloWhile -> While ExprCond Do '{' ListInstrucao '}'
+    Rule 70 While -> WHILE
+    Rule 71 CicloRepeat -> Repeat ListInstrucao Until ExprCond
+    Rule 72 Repeat -> REPEAT
+    Rule 73 Until -> UNTIL
+    Rule 74 CicloFor -> FOR '(' AtribuicaoInicial ExprCond EndCond Atribuicao ')' ListInstrucao
+    Rule 75 AtribuicaoInicial -> Atribuicao
+    Rule 76 EndCond -> ;
 }
 '''
-
-#Meter no expr a opção de ser apenas '-' Expr que faria push 0 push p[2] e sub
 
 import ply.yacc as yacc
 

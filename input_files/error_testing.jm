@@ -3,20 +3,32 @@
     int res = "10";
     float f = "19.1";
     string s = 10.8;
-    int[10][11] arra;   
+    int[10][11] arra;
 }
 
 
 <func> teste {
     {
-        int t;
+        int i;
     }
-
+    <if> t==10 <do> {
+        <ret> 1;
+    }
+    <else> {
+        <ret> 2;
+    }
+    ;
 }
 
-<func> teste2 {
+arra[10][0]=1;
+
+arra[9][11]=10;
+
+<func> teste {
     {
         int t;
     }
-
+    <ret> 10;
 }
+
+i = <call> teste3;

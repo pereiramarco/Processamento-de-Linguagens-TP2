@@ -120,8 +120,27 @@ start
 jump af0
 teste :
 pushi 0
+pushl 0
+pushi 10
+equal
+jz e1
+pushs "Olá JCR"
+writes
+pushi 1
+storel -1
+return
+jump t1
+e1 :
+pushi 2
+storel -1
+return
+t1 :
 af0 :
-jump af1
-teste :
+jump af2
+teste2 :
 pushi 0
-af1 :
+af2 :
+pushi 0
+pusha teste
+call
+storeg 0

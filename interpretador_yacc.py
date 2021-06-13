@@ -303,7 +303,10 @@ def p_Factor_func(p):
         p[0]="pushf 0.0\n"
     elif p.parser.current_type=="s":
         p[0]="pushs \"\"\n"
-    p[0]+="pusha "+p[2].strip()+"\ncall\n"
+    if p[2].strip() not in p.parser.func_vars.keys():
+        error("Função \""+p[2].strip()+"\" não foi declarada",p)
+    else:
+        p[0]+="pusha "+p[2].strip()+"\ncall\n"
 
 def p_Factor_var_simple(p):
     "Factor : ID"
@@ -373,11 +376,13 @@ def p_Funcao(p):
     p.parser.current_func = "0"
 
 def p_DecFunc(p):
-    "DecFunc : FUNC ID" #Adiciona todas as informações da função para seres atualizadas aquando da interpretação da mesma
+    "DecFunc : FUNC ID" #Adiciona todas as informações da função para serem atualizadas aquando da interpretação da mesma
     p.parser.stack.append(p.parser.label)
     p.parser.label+=1
     p.parser.compiled+= "jump af" + str(p.parser.stack[-1]) + "\n" + p[2].strip() + " :\n"
     p.parser.current_func = p[2].strip()
+    if p.parser.current_func in p.parser.func_var_counter.keys():
+        error("Função \""+p.parser.current_func+"\" redeclarada",p)
     p.parser.func_var_counter[p.parser.current_func] = 0
     p.parser.func_vars[p.parser.current_func]={}
     p.parser.func_var_types[p.parser.current_func]={}

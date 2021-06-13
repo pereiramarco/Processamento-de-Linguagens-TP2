@@ -118,19 +118,25 @@ def addVarToFunc(p,varname,inc):
     p.parser.func_var_types[p.parser.current_func][varname] = p.parser.current_type
 
 def addVar(p,varName,inc):
+    """Verifica se consegue adicionar a variável ao programa, se foi ou não declarada anteriormente.
+
+    Args:
+        p (PLY object): Parser
+        varName (str): Nome da variável
+        inc (int): Número de variáveis a declarar (1 em caso de variável simples, N em caso de array com N posições)
+    """
     linhaDec = p.parser.func_vars.get(p.parser.current_func).get(varName)
-    if linhaDec == None: #não foi declarado na função atual
+    if linhaDec is None: #não foi declarado na função atual
         linhaDec = p.parser.func_vars.get("0").get(varName) #pode ter sido declarada globalmente
         if linhaDec is None: #não foi declarada globalmente nem localmente logo pode ser adicionada
             addVarToFunc(p,varName,inc)
         else: #foi declarada globalmente e está a ser redeclarada localmente
             p.parser.success=False
             error("Variável "+varName+" declarada localmente na função "+p.parser.current_func+" depois de ter sido declarada globalmente na "+str(linhaDec+1)+ "ª declaração",p)
-    else:
-        if p.parser.current_func=="0": #está a ser redeclarada globalmente
-            error("Variável global "+varName+" foi redeclarada na linha"+str(p.parser.func_var_counter.get(p.parser.current_func)+1)+"das declarações depois de ter sido declarada na linha"+str(linhaDec+1),p)        
-        else: #está a ser redeclarada localmente
-            error("Variável "+varName+" redeclarada na função "+p.parser.current_func+" como "+str(p.parser.func_var_counter.get(p.parser.current_func))+"ª declaração depois de ter sido declarada como"+str(linhaDec+1)+"ª",p) 
+    elif p.parser.current_func=="0": #está a ser redeclarada globalmente
+        error("Variável global "+varName+" foi redeclarada na linha"+str(p.parser.func_var_counter.get(p.parser.current_func)+1)+"das declarações depois de ter sido declarada na linha"+str(linhaDec+1),p)
+    else: #está a ser redeclarada localmente
+        error("Variável "+varName+" redeclarada na função "+p.parser.current_func+" como "+str(p.parser.func_var_counter.get(p.parser.current_func))+"ª declaração depois de ter sido declarada como"+str(linhaDec+1)+"ª",p) 
 
 
 def p_Declaracao_var_simple(p):
@@ -421,7 +427,7 @@ def atribuiValor(p,array):
         v="0"
         k = p.parser.func_vars.get("0").get(array[0].strip())
         if k is None:
-            error("Variável"+ array[0]+"não declarada",p)
+            error("Variável "+ array[0]+" não declarada",p)
         stringResultante+= "storeg "
     else:
         stringResultante+= "storel "
@@ -430,9 +436,9 @@ def atribuiValor(p,array):
     else:
         info = p.parser.func_array_info.get(v).get(array[0].strip())
         if int(info[0])<=int(array[1]):
-            error("Array"+array[0]+"tem"+info[0]+"linhas e foi acedida a linha número "+str(int(array[1])-1),p)
+            error("Array \""+array[0]+"\" tem "+str(info[0])+" linhas e foi acedida a linha número "+str(int(array[1])+1),p)
         elif int(info[1])<=int(array[2]):
-            error("Array"+array[0]+"tem"+info[1]+"colunas e foi acedida a coluna número "+str(int(array[2])-1),p)
+            error("Array \""+array[0]+"\" tem "+str(info[1])+" colunas e foi acedida a coluna número "+str(int(array[2])+1),p)
         else:
             stringResultante+=str(k+int(array[1])*int(info[1])+int(array[2])) +"\n"
     return stringResultante
@@ -447,10 +453,8 @@ def p_Atribuicao(p):
 def p_Var(p):
     "Var : ID ContinuacaoVar"
     t = p.parser.func_var_types.get(p.parser.current_func).get(p[1].strip())
-    if t==None:
-        t = p.parser.func_var_types.get("0").get(p[1].strip())
     if t is None:
-        error("Variável "+p[1]+" não declarada",p)
+        t = p.parser.func_var_types.get("0").get(p[1].strip())
     p.parser.current_type=t
     p[0]=p[1]+p[2]
 
@@ -627,21 +631,14 @@ if len(sys.argv)==1 : #Verifica se foi fornecido um ficheiro para compilar
 else :
     print("Compiling: ",sys.argv[1]) # Imprime ficheiro de onde está a ler
 
-read = open(sys.argv[1], "r")
+read = open("input_files/"+sys.argv[1], "r")
 
-if len(sys.argv)==2 : #Verifica se foi fornecido um ficheiro destino para o código pseudo-máquina
-    filename = "a.vm"
-else :
-    filename = sys.argv[2]
-
+filename = "output_files/a.vm" if len(sys.argv)==2 else "output_files/"+sys.argv[2]
 parser.success=True #Determina se a compilação foi bem sucedida
 
-parser.compiled = "" #Texto compilado guarda-se na string para escrever no fim da compilação caso tenha sido successful
-
-parser.current_type=None #Determina o tipo da operação atual, pode ser ""(Inteiro) "f"(Float) "s"(String) None(Não definido)
-
-parser.current_func="0" #Determina a função onde se encontra atualmente de modo a poder produzir melhores mensagens de erro e controlar as declarações locais ("0" significa global)
-
+parser.compiled = "" #Texto compilado guarda-se na string para escrever no fim da compilação caso tenha 
+parser.current_type=None #Determina o tipo da operação atual, pode ser ""(Inteiro) "f"(Float) "s"(String) 
+parser.current_func="0" #Determina a função onde se encontra atualmente de modo a poder produzir melhores
 parser.func_var_counter={} #Guarda o contador de variáveis de cada função
 parser.func_var_counter.update({"0" : 0})
 
@@ -651,18 +648,17 @@ parser.func_vars.update({"0" : {}})
 parser.func_var_types={} #Guarda todos os tipos das variáveis de funções declaradas
 parser.func_var_types.update({"0" : {}})
 
-parser.func_array_info={} #Guarda um map para cada função com um tuplo de linhas e colunas que os arrays nessa função declarados têm
+parser.func_array_info={} #Guarda um map para cada função com um tuplo de linhas e colunas que os arrays nessa 
 parser.func_array_info.update({"0" : {}}) 
 
 parser.label=0 #Serve para declarar as etiquetas dos ciclos, funções e condições
 
 parser.stack=[] 
 
-content=""
+content = "".join(
+    linha for linha in read if not (linha.strip().startswith('#'))
+)
 
-for linha in read:
-    if not(linha.strip().startswith('#')) : #Remove qualquer linha começada por # pois estas linhas são de comentário
-        content += linha
 parser.parse(content)
 
 if parser.success:

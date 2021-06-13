@@ -1,0 +1,22 @@
+{
+    int i = 1.9;
+    int res = "10";
+    float f = "19.1";
+    string s = 10.8;
+    int[10][11] arra;   
+}
+
+
+<func> teste {
+    {
+        int t;
+    }
+
+}
+
+<func> teste2 {
+    {
+        int t;
+    }
+
+}
